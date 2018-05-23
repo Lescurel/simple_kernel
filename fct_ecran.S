@@ -40,22 +40,24 @@ ecrit_car:
 place_curseur:
   enter $0, $0
   //   outb(LOW_PORT, CURSOR_COMMAND)
-  movb $CURSOR_COMMAND, %dx
+  movw $CURSOR_COMMAND, %dx
   movb $LOW_PORT, %al
   outb %al, %dx
   movl 8(%ebp), %eax
   movl $NB_COL, %ecx
   mull %ecx
   addl 12(%ebp), %eax
-  movb $CURSOR_DATA, %dx
+  movl %eax, %ebx
+  movw $CURSOR_DATA, %dx
+  movb %bl, %al
   outb %al, %dx
   //   outb(HIGH_PORT, CURSOR_COMMAND);
-  movb $CURSOR_COMMAND, %dx
+  movw $CURSOR_COMMAND, %dx
   movb $HIGH_PORT, %al
   outb %al, %dx
   // outb((uint8_t)(pos << 8), CURSOR_DATA);
-  movb $CURSOR_DATA, %dx
-  shl $8, %eax
+  movw $CURSOR_DATA, %dx
+  movb %bh, %al
   outb %al, %dx
   leave
   ret

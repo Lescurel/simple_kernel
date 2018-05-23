@@ -22,7 +22,11 @@ void kernel_start(void)
     // uint16_t *ptr = ptr_mem(0,0);
     // (void)ptr;
     // efface_ecran();
-    place_curseur(2,2);
+    // place_curseur(2,2);
+    // console_putbytes("Hello World!\n", 13);
+    print_right_top("test1");
+    printf("\t\t\t\t\t Je fais des test \n bleh\bb\r");
+    print_right_top("test2");
     // quand on saura gerer l'ecran, on pourra afficher x
     // (void)x;
     // on ne doit jamais sortir de kernel_start
