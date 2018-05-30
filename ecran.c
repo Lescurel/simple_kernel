@@ -59,9 +59,19 @@ void traite_car(char c){
        ecrit_car(lig, col, c, WHITE, BLACK);
        poscrsr++;
     }
+    if(NB_COL * NB_LINE <= poscrsr){
+       defilement();
+       poscrsr -= NB_COL;
+    }
     pos_curseur();
 }
 
+void defilement(){
+   memmove((uint16_t *)BEGIN_ADDR, (uint16_t *)(BEGIN_ADDR+16), 2*NB_LINE*NB_COL);
+   for(size_t col = 0; col < NB_COL; col++){
+      ecrit_car(NB_LINE-1, col, ' ', WHITE, BLACK);
+   }
+}
 
 void console_putbytes(char *chaine, int32_t taille){
     for(size_t i =0; i < taille; i++){
@@ -70,14 +80,20 @@ void console_putbytes(char *chaine, int32_t taille){
 }
 
 
-void print_right_top(char *chaine){
+void print_at_pos(char *chaine, int32_t len, pos_id pos){
     uint16_t tmp;
-    char * s_time = "";
-    size_t l;
-    l = sprintf(s_time, chaine);
     tmp = poscrsr;
-    poscrsr = NB_COL - l;
-    console_putbytes(s_time, l);
+    if(pos > 3){
+        poscrsr = (NB_LINE-1)*NB_COL;
+    } else{
+        poscrsr = 0;
+    }
+    if(1==pos%3){
+        poscrsr += (NB_COL - len)/2;
+    }else if(2==pos%3){
+        poscrsr += NB_COL - len;
+    }
+    console_putbytes(chaine, len);
     poscrsr = tmp;
 }
 
